@@ -35,8 +35,13 @@ $.fn.isValid = (validators) ->
     validateElement(obj, validatorsFor(@[0].name, validators))
 
 validatorsFor = (name, validators) ->
-  name = name.replace(/_attributes\]\[\w+\]\[(\w+)\]/g, "_attributes][][$1]")
-  validators[name] || {}
+  #name = name.replace(/_attributes\]\[\w+\]\[(\w+)\]/g, "_attributes][][$1]")
+  #validators[name] || {}
+  if validators[name]
+    validators[name]
+  else
+    name = name.replace(/_attributes\]\[\w+\]\[(\w+)\]$/g, "_attributes][][$1]")
+    validators[name] || {}
 
 validateForm = (form, validators) ->
   form.trigger('form:validate:before.ClientSideValidations')
