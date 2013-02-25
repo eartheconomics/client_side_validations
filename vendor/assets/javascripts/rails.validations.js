@@ -44,8 +44,12 @@
   };
 
   validatorsFor = function(name, validators) {
-    name = name.replace(/_attributes\]\[\w+\]\[(\w+)\]/g, "_attributes][][$1]");
-    return validators[name] || {};
+    if (validators[name]) {
+      return validators[name];
+    } else {
+      name = name.replace(/_attributes\]\[\w+\]\[(\w+)\]$/g, "_attributes][][$1]");
+      return validators[name] || {};
+    }
   };
 
   validateForm = function(form, validators) {
@@ -571,7 +575,7 @@
       add: function(element, settings, message) {
         var form, inputErrorField, label, labelErrorField;
         form = $(element[0].form);
-        if (element.data('valid') !== false && !(form.find("label.message[for='" + (element.attr('id')) + "']")[0] != null)) {
+        if (element.data('valid') !== false && (form.find("label.message[for='" + (element.attr('id')) + "']")[0] == null)) {
           inputErrorField = jQuery(settings.input_tag);
           labelErrorField = jQuery(settings.label_tag);
           label = form.find("label[for='" + (element.attr('id')) + "']:not(.message)");
