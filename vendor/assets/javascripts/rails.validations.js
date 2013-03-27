@@ -537,11 +537,8 @@
           name = options['class'] + '[' + name.split('[')[1];
         }
         data[name] = element.val();
-        if (ClientSideValidations.remote_validators_prefix == null) {
-          ClientSideValidations.remote_validators_prefix = "";
-        }
         if (jQuery.ajax({
-          url: "" + ClientSideValidations.remote_validators_prefix + "/validators/uniqueness",
+          url: ClientSideValidations.remote_validators_url_for('uniqueness'),
           data: data,
           async: false,
           cache: false
@@ -549,6 +546,14 @@
           return options.message;
         }
       }
+    }
+  };
+
+  window.ClientSideValidations.remote_validators_url_for = function(validator) {
+    if (ClientSideValidations.remote_validators_prefix != null) {
+      return "//" + window.location.host + "/" + ClientSideValidations.remote_validators_prefix + "/validators/" + validator;
+    } else {
+      return "//" + window.location.host + "/validators/" + validator;
     }
   };
 
@@ -561,7 +566,7 @@
     _results = [];
     for (validator in _ref) {
       func = _ref[validator];
-      if (window.ClientSideValidations.disabled_validators.indexOf(validator) !== -1) {
+      if (__indexOf.call(window.ClientSideValidations.disabled_validators, validator) >= 0) {
         _results.push(delete window.ClientSideValidations.validators.remote[validator]);
       } else {
         _results.push(void 0);
