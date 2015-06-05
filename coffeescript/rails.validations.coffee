@@ -197,8 +197,8 @@ window.ClientSideValidations.enablers =
       element = $form.find("##{@id.match(/(.+)_confirmation/)[1]}:input")
       if element[0]
         $("##{confirmationElement.attr('id')}").on(event, binding) for event, binding of {
-          'focusout.ClientSideValidations': -> element.data('changed', true).isValid(form.ClientSideValidations.settings.validators)
-          'keyup.ClientSideValidations'   : -> element.data('changed', true).isValid(form.ClientSideValidations.settings.validators)
+          'focusout.ClientSideValidations': -> element.data('changed', true).isValid(form?.ClientSideValidations?.settings?.validators)
+          'keyup.ClientSideValidations'   : -> element.data('changed', true).isValid(form?.ClientSideValidations?.settings?.validators)
         }
 
 window.ClientSideValidations.validators =
